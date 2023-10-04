@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    
+    <section id="posts">
+        <h2>Observations</h2>
+        {% for observation in observations %}
+            <article>
+                <h3>{{ post.title }}</h3>
+                <p>{{ post.content }}</p>
+            </article>
+        {% endfor %}
+    </section>
+    
+    <section id="discussions">
+        <h2>Discussions</h2>
+        {% for discussion in discussions %}
+            <article>
+                <h3>{{ discussion.title }}</h3>
+                <p>{{ discussion.content }}</p>
+            </article>
+        {% endfor %}
+    </section>
+{% endblock %}

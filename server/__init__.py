@@ -4,6 +4,7 @@ from .config import Config
 from .database import db
 from flask import Blueprint
 
+
 login_manager = LoginManager()
 bp = Blueprint('auth', __name__)
 
@@ -16,6 +17,11 @@ def create_app(config_class=Config):
     template_path = '/home/flash1105/development/code/phase-5/python-p5-project-EntomoConnect/templates'
     app = Flask(__name__, template_folder=template_path)
     app.config.from_object(config_class)
+
+    from auth.routes import auth, observation_bp
+    
+    app.register_blueprint(auth, url_prefix='/auth')
+    app.register_blueprint(observation_bp, url_prefix='/observation')
 
     db.init_app(app)
     login_manager.init_app(app)

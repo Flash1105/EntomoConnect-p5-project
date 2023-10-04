@@ -1,5 +1,5 @@
 from flask import render_template, Blueprint, redirect, url_for, session, flash, request, redirect, url_for
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from .forms import LoginForm, RegisterForm
 from server.models.user import User
 from server.database import db
@@ -9,7 +9,6 @@ from server.models.discussion import Discussion
 from server.__init__ import login_manager
 
 auth = Blueprint('auth', __name__)
-observation_bp = Blueprint('observation_bp', __name__)
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -37,8 +36,15 @@ def logout():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
-    print("Register route hit")
-    pass
+    form = RegisterForm()
+    if form.validate_on_submit():
+        hashed_password = generate_password_hash(form.password.data, method='sha256')
+        new_user = User(username=form.username.data, email=form.email.data, password_hash=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Your account has been created! You are now able to log in', 'success')   
+        return redirect(url_for('auth.login'))
+    return render_template('register.html', form=form)
 
 @auth.route('/dashboard')
 @login_required 
@@ -83,4 +89,3 @@ def new_observation():
         db.session.commit()
         return redirect(url_for('observation.observations'))
     return render_template('new_observation.html')
-

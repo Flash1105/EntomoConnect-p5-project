@@ -1,31 +1,23 @@
-<!-- register.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
-    <h1>Register</h1>
-    <form method="post">
-        {{ form.hidden_tag() }}
-        <p>
-            {{ form.username.label }}<br>
-            {{ form.username(size=20) }}
-        </p>
-        <p>
-            {{ form.email.label }}<br>
-            {{ form.email(size=20) }}
-        </p>
-        <p>
-            {{ form.password.label }}<br>
-            {{ form.password(size=20) }}
-        </p>
-        <p>
-            {{ form.password2.label }}<br>
-            {{ form.password2(size=20) }}
-        </p>
-        <p><input type="submit" value="Register"></p>
+{% extends 'base.html' %}
+
+{% block content %}
+<h2>Register</h2>
+<form action="{{url_for('auth.register') }}" method="post">
+    {{ form.hidden_tag() }}
+<div>
+    {{form.username.label }}<br>
+    {{ form.username() }}
+    </div>
+    <div>
+    {{ form.email.label }}<br>
+    {{ form.email() }}
+    </div>
+    <div>
+    {{ form.password.label }}<br>
+    {{ form.password() }}
+    </div>
+    <div>
+    {{ form.submit() }}
+    </div>  
     </form>
-</body>
-</html>
+{% endblock %}

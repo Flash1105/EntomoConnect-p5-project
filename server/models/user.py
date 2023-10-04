@@ -1,6 +1,5 @@
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from server.database import db
+from database import db
 from enum import Enum
 from flask_login import UserMixin
 

@@ -8,14 +8,14 @@ from server.models.observation import Observation
 from server.models.discussion import Discussion
 from server.__init__ import login_manager
 
-auth_bp = Blueprint('auth', __name__)
+auth = Blueprint('auth', __name__)
 
 @login_manager.user_loader
 def load_user(user_id):
     return User.query.get(int(user_id))
 
 
-@auth_bp.route('/login', methods=['GET', 'POST'])
+@auth.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
@@ -28,18 +28,18 @@ def login():
             flash('Invalid username or password', 'danger')
     return render_template('login.html', form=form)
 
-@auth_bp.route('/logout')
+@auth.route('/logout')
 def logout():
     logout_user()
     flash('You were successfully logged out!', 'success')
     return redirect(url_for('main.index'))
 
-@auth_bp.route('/register', methods=['GET', 'POST'])
+@auth.route('/register', methods=['GET', 'POST'])
 def register():
     print("Register route hit")
     pass
 
-@auth_bp.route('/dashboard')
+@auth.route('/dashboard')
 @login_required 
 def dashboard():
     observations = Observation.query.all()
